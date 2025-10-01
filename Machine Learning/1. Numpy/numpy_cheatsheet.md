@@ -2,19 +2,19 @@
 
 ## Table of Contents
 
- 1. [Installation](#installation)
- 2. [Data Types](#data-types)
- 3. [Creating Arrays](#creating-arrays)
- 4. [Inspecting Your Array](#inspecting-your-array)
- 5. [Array Operations](#array-operations)
- 6. [Compression](#compression)
- 7. [Aggregate Functions](#aggregate-functions)
- 8. [Copying Arrays](#copying-arrays)
- 9. [Sorting Arrays](#sorting-arrays)
- 10. [Indexing and Slicing](#indexing-and-slicing)
- 11. [Linear Algebra](#linear-algebra)
- 12. [Array Manipulation](#array-manipulation)
- 13. [References](#references)
+* [Installation](#installation)
+* [Data Types](#data-types)
+* [Creating Arrays](#creating-arrays)
+* [Inspecting Your Array](#inspecting-your-array)
+* [Array Operations](#array-operations)
+* [Compression](#compression)
+* [Aggregate Functions](#aggregate-functions)
+* [Copying Arrays](#copying-arrays)
+* [Sorting Arrays](#sorting-arrays)
+* [Indexing and Slicing](#indexing-and-slicing)
+* [Linear Algebra](#linear-algebra)
+* [Array Manipulation](#array-manipulation)
+* [References](#references)
 
 ## Installation
 
@@ -43,17 +43,18 @@ np.unicode_  # Fixed-length Unicode type
 
 ```python
 np.array([1, 2, 3]) # From a list
-np.zeros((3, 3)) # Zeros array
-np.ones((2, 4)) # Ones array
-np.full((2,2), 10) # Constatnt array ([[10,10], [10, 10]])
+np.zeros(shape=(3, 3)) # Zeros array
+np.ones(shape=(2, 4)) # Ones array
+np.full(shape=(2,2), 10) # Constatnt array ([[10,10], [10, 10]])
 np.eye(3) # Identity matrix
 
 # Evenly spaced values (step value)
-np.arange(10, 25, 5) 
+np.arange(10, 25, step=5) 
 # Evenly spaced values (number of samples)
-np.linspace(0, 9, 100)
+np.linspace(0, 9, num=100)
 
 np.random.rand(3, 2) # Random array (with given shape)
+# p.s: random numbers are in [0,1) range
 np.random.randint(0, 10, size=(2, 3)) # Random integers array
 ```
 
@@ -75,22 +76,22 @@ b.astype(int) # Convert the array to a different type
 # Element-wise addition
 arr + 2
 arr1 + arr2
-np.add(arr1, arr2)
+np.add(arr1, arr2) # Faster with Numpy function
 
 # Element-wise subtraction
 result = arr - 2
 result = arr1 - arr2
-np.subtract(arr1, arr2)
+np.subtract(arr1, arr2) # Faster with Numpy function
 
 # Element-wise multiplication
 result = arr * 2
 result = arr1 * arr2
-np.multiply(arr1, arr2)
+np.multiply(arr1, arr2) # Faster with Numpy function
 
 # Element-wise division
 result = arr / 2
 result = arr1 / arr2
-np.divide(arr1, arr2)
+np.divide(arr1, arr2) # Faster with Numpy function
 
 np.exp(arr)  # Exponential of each element in array
 np.sqrt(arr)  # Square root of each element in array
@@ -214,6 +215,12 @@ arr[::-1]  # Reverse the array
 arr[arr > 2]
 ```
 
+```python
+# np.where
+
+np.where(arr > 2, a, 0) # set 0 to all bellow 2 values
+```
+
 ## Linear Algebra
 
 ```python
@@ -236,7 +243,11 @@ np.unique(arr)
 ```python
 # Change Array Shape
 
-arr.reshape((2, 3)) # Reshape
+arr.reshape((2, 3)) # Reshape into 1 row and 3 columns
+
+# -1 means determine columns automatically
+np.reshape(arr, (2, -1))
+
 arr.ravel() # Flatten
 ```
 
@@ -277,7 +288,6 @@ np.vsplit(arr, 2)
 
 ## References
 
-- [NumPy Documentation](https://numpy.org/doc/)
-- [NumPy Tutorial](https://www.w3schools.com/python/numpy_intro.asp)
-- [NumPy Cheat Sheet](https://www.datacamp.com/community/blog/python-numpy-cheat-sheet)
-
+* [NumPy Documentation](https://numpy.org/doc/)
+* [NumPy Tutorial](https://www.w3schools.com/python/numpy_intro.asp)
+* [NumPy Cheat Sheet](https://www.datacamp.com/community/blog/python-numpy-cheat-sheet)
