@@ -2,16 +2,17 @@
 
 ## Table of Contents
 
- 1. [Installation](#installation)
- 2. [Creating DataFrames](#creating-dataframes)
- 3. [Inspecting Data](#inspecting-data)
- 4. [Selecting](#selecting)
- 5. [Modifying Data](#modifying-data)
- 6. [Handling Missing Data](#handling-missing-data)
- 7. [Sorting and Grouping](#sorting-and-grouping)
- 8. [Merging and Joining DataFrames](#merging-and-joining-dataframes)
- 9. [Exporting Data](#exporting-data)
- 10. [References](#references)
+- [Installation](#installation)
+- [Creating DataFrames](#creating-dataframes)
+- [Inspecting Data](#inspecting-data)
+- [Selecting](#selecting)
+- [Modifying Data](#modifying-data)
+- [Handling Missing Data](#handling-missing-data)
+- [Handling Outliers](#handling-outliers)
+- [Sorting and Grouping](#sorting-and-grouping)
+- [Merging and Joining DataFrames](#merging-and-joining-dataframes)
+- [Exporting Data](#exporting-data)
+- [References](#references)
 
 ## Installation
 
@@ -63,10 +64,11 @@ df.dtypes  # Data Types
 df.describe()  # Summary statistics
 df.shape  # Dimensions
 df.columns  # Columns
-df['sex'].value_counts()  # Unique values repeat count
+df['sex'].value_counts(dropna=False)  # Unique values count repeat count
 df['sex'].value_counts(normalize=True) * 100  # Percentage
 pd.crosstab( titanic_data.sex, titanic_data.survived)
 # tip: normalize="index" or "columns" or "all"
+df.unique()  # Unique values only
 ```
 
 ## Selecting
@@ -74,11 +76,43 @@ pd.crosstab( titanic_data.sex, titanic_data.survived)
 ```python
 df['Age']  # Select a column
 df[['Name', 'Age']]  # Select multiple columns
-df.iloc[0]  # Select first row by index
-df.loc[0, 'Name']  # Select specific value
-df[df['Age'] > 25]  # Filter rows
+
+# ____ Filter rows ____
+titanic_data[
+    (titanic_data.age <= 5) &
+    (titanic_data.survived == 1)]
+
+titanic_data[
+    titani_datac.name.str.contains('Allen')
+    ]
+titanic_data[titanic_data.age.isnull()]
+
+# ____ Slicing ____
 df[0:10]
+
+# ____ iloc ____
+df.iloc[0]  # Select first row by index
+df.iloc[0, 1, 2]  # Select 0, 1, and 2 row
+
+# rows from 0 to 9
+# columns from 0 to 2
+df.iloc[0:10, 0:3]
+
+df.iloc[:, 0:3]  # All rows and 0 to 2 columns
+
+cols = [True, True, False, False, True, False]
+df.iloc[: , cols] # Only True cols
+
+
+df.loc[0, 'Name']  # Select specific value
+df.loc[['name1', 'name2'], ['col1', 'col2']]
+
+
+# ____ Query ____
+df.query('survived == 1 and age >= 10')
 ```
+
+![Pandas iloc and loc](./Pandas-selections-and-indexing.png)
 
 ## Modifying Data
 
@@ -98,6 +132,31 @@ df.rename(columns={'Age': 'Years'}, inplace=True)
 df.dropna()  # Remove missing values
 df.fillna(0)  # Fill missing values with 0
 df.isna().sum()  # Count missing values per column
+```
+
+## Handling Outliers
+
+```python
+# Calculate Q1 (25th percentile) and Q3 (75th percentile) for the Price column
+Q1 = cdf['Feature'].quantile(0.25)
+Q3 = cdf['Feature'].quantile(0.75)
+
+# Calculate the IQR (Interquartile Range)
+IQR = Q3 - Q1
+
+# Define lower and upper bounds for normal price values
+lower_bound = Q1 - 1.5 * IQR
+upper_bound = Q3 + 1.5 * IQR
+
+# Create a new column to flag outliers
+cdf['Feature_Outlier'] = ((cdf['Feature'] < lower_bound) | (cdf['Feature'] > upper_bound))
+
+# Remove the outliers from the original data
+cdf = cdf[~cdf['Feature_Outlier']]
+
+# Drop the Outlier column if you no longer need it
+cdf = cdf.drop(columns=['Feature_Outlier'])
+print(f"Number of rows after removing outliers: {cdf.shape[0]}")
 ```
 
 ## Sorting and Grouping
@@ -125,4 +184,3 @@ df.to_excel("output.xlsx", index=False)  # Save as Excel
 ## References
 
 - [Pandas Documentation](https://pandas.pydata.org/docs/)
-
