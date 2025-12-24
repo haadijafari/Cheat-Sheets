@@ -121,7 +121,7 @@ git commit -m "Update homepage"
 git add style.css
 # 3. You amend the previous commit
 git commit --amend --no-edit
-# Result: The previous commit now includes 'style.css'. 
+# Result: The previous commit now includes 'style.css'.
 # '--no-edit': "keep the old commit message".
 ```
 
@@ -219,6 +219,7 @@ git reset --hard HEAD~1
 ```bash
 # 5. Create a commit to undo the last commit
 git revert HEAD
+# OR
 git revert <Commit ID>
 ```
 
